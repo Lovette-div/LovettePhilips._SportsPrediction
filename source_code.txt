@@ -1,0 +1,30 @@
+import streamlit as st
+
+# loading the trained model 
+model = pkl.load(open('RandomForestRegressor.pkl', 'rb'))
+scaler = pkl.load(open('scaler.pkl', 'rb'))
+
+
+
+#input
+st.title("FIFA Player Rating Prediction")
+st.write("Enter the player's attributes to predict the overall rating.")
+features = [...]  #input features
+input_data = []
+for feature in features:          #input fields for features
+    value = st.number_input(f'{feature}', min_value=0.0, max_value=100.0, step=0.1)
+    input_data.append(value)
+
+
+
+
+input_df = pd.DataFrame([input_data], columns=features)          #data to dataFrame
+input_scaled = scaler.transform(input_df)
+
+
+
+
+
+if st.button('Predict'):                                         
+    prediction = model.predict(input_scaled)
+    st.write(f'The predicted overall rating is: {prediction[0]:.2f}')    #prediction
